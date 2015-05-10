@@ -1,0 +1,23 @@
+{
+    "name": "brackets-clientlibs-combine",
+    "title": "Brackets Clientlibs Combine",
+    "version": "0.1.0",
+    "description": "Combines multiple files into single file, iteratively",
+    "homepage": "https://github.com/wykapedia/brackets-clientlibs-combine",
+    "author": "Brian Wyka (https://github.com/wykapedia)",
+    "license": "MIT",
+    "categories": "general",
+    "keywords": [
+        "js", 
+        "css",
+        "clientlib",
+        "concat",
+        "combine",
+        "concatenate",
+        "concatenation",
+        "build"
+    ],
+        "engines": {
+        "brackets": ">=0.32.0"
+    }
+}
