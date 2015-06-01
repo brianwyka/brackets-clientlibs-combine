@@ -17,6 +17,10 @@ define(function (require, exports, module) {
 	
 	var contextMenu = Menus.getContextMenu(Menus.ContextMenuIds.PROJECT_MENU);
 	var config = { };
+    
+    var errorLog = function (message, error) {
+        console.log("[brackets-clientlibs-combine] " + message + ": " + error);
+    };
 	
 	var addDirectoriesToFileList = function (fileList, directories) {
 		for (var i = 0; i < directories.length; i++) {
@@ -87,10 +91,6 @@ define(function (require, exports, module) {
 	var parseConfigFile = function (data, callback) {
 		config = JSON.parse(data);
 		
-		for (var i=0; i<config.combine.length; i++) {
-			config.combine[i].fileQueue = 0;
-		}
-		
 		removeFileDuplicates();
 		processWildCards(callback);
 	};
@@ -99,7 +99,7 @@ define(function (require, exports, module) {
 		var file = FileSystem.getFileForPath(ProjectManager.getProjectRoot().fullPath + CONFIG_FILE);
 		file.read(function (error, data, status) {
 			if (error) {
-				console.log('[brackets-clientlibs-combine] Error loading project config file (' + CONFIG_FILE + '): ' + error);
+                errorLog("Error loading project config file (" + CONFIG_FILE + ")", error);
 			} else {
 				parseConfigFile(data, callback);
 			}
@@ -110,15 +110,12 @@ define(function (require, exports, module) {
 		var file = FileSystem.getFileForPath(ProjectManager.getProjectRoot().fullPath + fileName);
 		file.read(function (error, data) {
 			if (error) {
-				console.error('[brackets-clientlibs-combine] Error reading file for combination (' + fileName + '): ' + error);
+                errorLog("Error reading file for combination (" + fileName + ")", error);
 			} else {
 				readInto += data + '\n';
 			}
-			
-			combine.fileQueue--;
-			if (combine.fileQueue >= 0) {
-				var fileIndex = combine.files.length - 1 - combine.fileQueue;
-				readFile(combine, combine.files[fileIndex], readInto, callback);
+			if (combine.files.length > 0) {
+				readFile(combine, combine.files.shift(), readInto, callback);
 			} else {
 				callback(readInto);
 			}
@@ -127,9 +124,10 @@ define(function (require, exports, module) {
 	
 	var getFileContents = function (combine, callback) {
 		var buildContent = '';
-		combine.fileQueue = combine.files.length - 1;
-		var fileIndex = combine.files.length - 1 - combine.fileQueue;
-		readFile(combine, combine.files[fileIndex], buildContent, callback);
+        if (combine.files.length > 0) {
+            var fileName = combine.files.shift();
+            readFile(combine, fileName, buildContent, callback);
+        }
 	};
 	 
 	var writeBuildFile = function (combine, buildFile, startTime) {
@@ -137,9 +135,8 @@ define(function (require, exports, module) {
 			buildFile.unlink();
 			buildFile.write(data, function (error, stats) {
 				if (error) {
-					console.error('[brackets-clientlibs-combine] Error writing build file: ' + error);
+                    errorLog("Error writing build file", error);
 				} else {
-					//ProjectManager.refreshFileTree();
 					console.log('[brackets-clientlibs-combine] ' + new Date().toLocaleTimeString() 
 						+ ' Combinination done succesfully! Duration: ' + (new Date().getTime() - startTime) + ' ms.');
 				}
@@ -160,7 +157,7 @@ define(function (require, exports, module) {
 						var directory = FileSystem.getDirectoryForPath(buildFile.parentPath);
 						directory.create(function (error, status) {
 							if (error && error !== 'AlreadyExists') {
-								console.error('[brackets-clientlibs-combine] Error creating build directory: ' + error);
+                                errorLog("Error creating build directory", error);
 								return;
 							}
 							writeBuildFile(combine, buildFile, startTime);
