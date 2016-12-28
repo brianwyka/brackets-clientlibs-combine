@@ -1,7 +1,7 @@
 {
     "name": "brackets-clientlibs-combine",
     "title": "Brackets Clientlibs Combine",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "Combines multiple files into single file, iteratively",
     "homepage": "https://github.com/wykapedia/brackets-clientlibs-combine",
     "author": "Brian Wyka (https://github.com/wykapedia)",
