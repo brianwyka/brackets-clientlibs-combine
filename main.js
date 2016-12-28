@@ -181,7 +181,11 @@ define(function (require, exports, module) {
 		}
 		$(contextMenu).on("beforeContextMenuOpen", function (evt) {
 			var selectedItem = ProjectManager.getSelectedItem();
-			contextMenu.removeMenuItem(CMD);
+            try {
+                contextMenu.removeMenuItem(CMD);
+            } catch (e) {
+                errorLog("Error removing content menu item", e);
+            }
 			
 			if (divider) {
 				contextMenu.removeMenuDivider(divider.id);
