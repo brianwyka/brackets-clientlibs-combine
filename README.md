@@ -1,7 +1,7 @@
 Brackets Clientlibs Combine
 ===========================
 
-Combine multiple clientlib files into one.
+Combine multiple clientlib files into one..
 
 Here is an example of a 'clientlibs.combine' file:
 ```
@@ -44,10 +44,3 @@ Right-click on 'clientlibs.combine' to manually concatenate the files in the lis
 <b>Wildcard support</b>
 * if the path to file ends with '/' character, all the files in that folder will be concatenated
 * if the path to file ends with '/*' followed by a group of characters, only files ending in that group of characters will be concatenating (ex.: controllers/*.js matches all the files in controllers folder ending with '.js' i.e. all javascript files)
-
-<b>Change log</b>
-
-<i>0.0.1</i>
-<ul>
-<li>First release</li>
-</ul>

@@ -1,0 +1,71 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>org.wykapedia.brackets</groupId>
+    <artifactId>brackets-clientlibs-combine</artifactId>
+    <version>0.0.3</version>
+    <packaging>pom</packaging>
+
+    <name>Brackets Clientlibs Combine</name>
+    <description>Clientlibs Combine Brackets Extension</description>
+    <url>https://brackets-registry.aboutweb.com/</url>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <s3.bucket>brackets-extensions</s3.bucket>
+        <s3.bucket.releases>releases</s3.bucket.releases>
+        <s3.bucket.snapshots>snapshots</s3.bucket.snapshots>
+    </properties>
+    
+    <build>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>assemble</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        
+        <extensions>
+            <extension>
+                <groupId>org.springframework.build</groupId>
+                <artifactId>aws-maven</artifactId>
+                <version>5.0.0.RELEASE</version>
+            </extension>
+        </extensions>
+        
+    </build>
+    
+    <distributionManagement>
+        <repository>
+            <id>aws-release</id>
+            <name>AWS Release Repository</name>
+            <url>s3://${s3.bucket}/${s3.bucket.releases}</url>
+        </repository>
+        <snapshotRepository>
+            <id>aws-snapshot</id>
+            <name>AWS Snapshot Repository</name>
+            <url>s3://${s3.bucket}/${s3.bucket.snapshots}</url>
+        </snapshotRepository>
+    </distributionManagement>
+    
+</project>
