@@ -4,7 +4,8 @@ Brackets Clientlibs Combine
 Combine multiple clientlib files into one..
 
 Here is an example of a 'clientlibs.combine' file:
-```
+
+```json
 {
     "combineOnSave": false,
     "combine": [
@@ -39,8 +40,13 @@ Here is an example of a 'clientlibs.combine' file:
 }
 ```
 
-Right-click on 'clientlibs.combine' to manually concatenate the files in the list, useful if 'combineOnSave' is false.
+Right-click on `clientlibs.combine` to manually concatenate the files in the list, useful if `combineOnSave` is `false`.
 
-<b>Wildcard support</b>
-* if the path to file ends with '/' character, all the files in that folder will be concatenated
-* if the path to file ends with '/*' followed by a group of characters, only files ending in that group of characters will be concatenating (ex.: controllers/*.js matches all the files in controllers folder ending with '.js' i.e. all javascript files)
+**Wildcard Support**
+* if the path to file ends with `/` character, all the files in that folder will be concatenated
+* if the path to file ends with `/*` followed by a group of characters, only files ending in that group of characters will be concatenating (ex.: `controllers/*.js` matches all the files in controllers folder ending with `.js` i.e. all javascript files)
+
+## Adobe Brackets Extension Registry
+Search for `Brackets Clientlibs Combine` to locate and download latest version.
+
+https://registry.brackets.io/
